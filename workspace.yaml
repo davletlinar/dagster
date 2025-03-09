@@ -1,0 +1,5 @@
+load_from:
+  - grpc_server:
+      host: "dagster_grpc"
+      port: 4004
+      location_name: "grpc_server"

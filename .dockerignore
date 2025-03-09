@@ -1,0 +1,8 @@
+/notebooks
+/storage
+/.vscode
+/.pytest_cache
+/__pycache__
+/postgres
+/tests
+/db_init

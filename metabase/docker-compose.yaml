@@ -1,0 +1,23 @@
+# start metabase container with given parameters
+services:
+  metabase:
+    image: metabase/metabase
+    container_name: metabase
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_DBNAME=${MB_DB_DBNAME}
+      - MB_DB_USER=${MB_DB_USER}
+      - MB_DB_PASS=${MB_DB_PASS}
+      - MB_DB_HOST=postgres
+      - MB_DB_PORT=5432
+    ports:
+      - "3000:3000"
+    volumes:
+      - /home/davletlinar/metabase_data:/metabase
+    # attach to existing network
+    networks:
+      - dagster
+
+networks:
+  dagster:
+    external: true

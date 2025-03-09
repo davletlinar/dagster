@@ -1,0 +1,46 @@
+services:
+  dagster_grpc:
+    build: .
+    container_name: dagster_grpc
+    volumes:
+      - ./repos:/opt/dagster/app/repos
+      - ./storage:/tmp/io_manager_storage/storage
+      - ./workspace.yaml:/opt/dagster/app/workspace.yaml
+    ports:
+      - "4004:4004"
+    command: dagster api grpc -p 4004 -h 0.0.0.0 --module-name repos
+    restart: always
+    networks:
+      - dagster
+
+  dagster_webserver:
+    build: .
+    container_name: dagster_webserver
+    volumes:
+      - ./repos:/opt/dagster/app/repos
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "3003:3003"
+    command: dagster-webserver -h 0.0.0.0 -p 3003
+    restart: always
+    networks:
+      - dagster
+    depends_on:
+      - dagster_grpc
+
+  dagster-daemon:
+    build: .
+    container_name: dagster-daemon
+    volumes:
+      - ./repos:/opt/dagster/app/repos
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: dagster-daemon run
+    restart: always
+    networks:
+      - dagster
+    depends_on:
+      - dagster_grpc
+
+networks:
+  dagster:
+    external: true

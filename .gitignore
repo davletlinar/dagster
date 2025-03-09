@@ -1,0 +1,11 @@
+storage/
+.vscode/
+.pytest_cache/
+__pycache__/
+postgres/postgres_data/
+.DS_Store
+.env
+notebooks/
+repos/megafon_vats_data/
+repos/__pycache__/
+tests/

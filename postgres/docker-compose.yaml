@@ -1,0 +1,22 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DAGSTER_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DAGSTER_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DAGSTER_POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - /home/davletlinar/postgres_data:/var/lib/postgresql/data
+      - ./role_database_init.sql:/docker-entrypoint-initdb.d/role_database_init.sql
+    networks:
+      - dagster
+
+networks:
+  dagster:
+    driver: bridge
+    name: dagster
+    
